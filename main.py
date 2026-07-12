@@ -13,8 +13,8 @@ SOURCE_CHANNELS = ['@filembad']
 # کانال مقصد شما
 TARGET_CHANNEL = '@npv_proxy7'
 
-# ساخت کلاینت تلگرام
-client = TelegramClient('session_name', API_ID, API_HASH)
+# ساخت کلاینت تلگرام با نام دقیق فایل سشن شما در گیت‌هاب
+client = TelegramClient('proxy_session', API_ID, API_HASH)
 
 @client.on(events.NewMessage(chats=SOURCE_CHANNELS))
 async def handler(event):
@@ -22,11 +22,10 @@ async def handler(event):
     if not message_text:
         return
         
-    # ۱. جایگزین کردن آیدی کانال مبدا با کانال شما در کل متن (پرچم‌ها و بقیه متن دست‌نخورده می‌مانند)
-    # این خط هر جا @filembad ببیند را به @npv_proxy7 تبدیل می‌کند
+    # ۱. جایگزین کردن آیدی کانال مبدا با کانال شما در کل متن
     new_message = message_text.replace('@filembad', '@npv_proxy7')
     
-    # ۲. پیدا کردن لینک‌های پروکسی در متن پیام برای تغییر اسم انتهای لینک (بخش بعد از #)
+    # ۲. پیدا کردن لینک‌های پروکسی در متن پیام برای تغییر اسم انتهای لینک
     urls = re.findall(r'(t\.me/proxy\?\S+|tg://proxy\?\S+)', new_message)
     
     if urls:
