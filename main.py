@@ -13,8 +13,18 @@ SOURCE_CHANNELS = ['@filembad']
 # کانال مقصد شما
 TARGET_CHANNEL = '@npv_proxy7'
 
-# ساخت کلاینت تلگرام با نام دقیق فایل سشن شما در گیت‌هاب
-client = TelegramClient('proxy_session', API_ID, API_HASH)
+# پیدا کردن مسیر دقیق پوشه اصلی روی سرور رندر برای خواندن فایل سشن
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SESSION_PATH = os.path.join(BASE_DIR, 'proxy_session.session')
+
+print(f"بررسی وجود فایل سشن در مسیر: {SESSION_PATH}")
+if os.path.exists(SESSION_PATH):
+    print("فایل سشن با موفقیت پیدا شد.")
+else:
+    print("هشدار: فایل سشن در این مسیر پیدا نشد!")
+
+# ساخت کلاینت تلگرام با آدرس دقیق فایل سشن
+client = TelegramClient(os.path.splitext(SESSION_PATH)[0], API_ID, API_HASH)
 
 @client.on(events.NewMessage(chats=SOURCE_CHANNELS))
 async def handler(event):
